@@ -48,11 +48,6 @@ window.onload=function(){
 		pos.pop();
 
 		for(var i=0; i<aLi.length; i++){
-			/*aImg[i].style.width=pos[i].width+'px';
-			aImg[i].style.top=pos[i].imgTop+'px';
-			aLi[i].style.top=pos[i].top+'px';
-			aLi[i].style.left=pos[i].left+'px';
-			aImg[i].style.opacity=pos[i].opacity;*/
 			move(aLi[i],{top:pos[i].top,left:pos[i].left});
 			move(aImg[i],{top:pos[i].imgTop,width:pos[i].width,opacity:pos[i].opacity});
 		}
