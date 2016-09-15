@@ -2,63 +2,58 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<title>Document</title>
 	<style>
-		*{ padding: 0; margin: 0; list-style: none;}
-		ul{ margin: 50px auto; width: 400px; height: 300px; position: relative;}
-		ul li{ width: 400px; height: 300px; position: absolute; top: 0; left: 0; font-size: 150px; text-align: center; line-height: 300px; background: #989898; transition: 1s all linear; opacity: 0; transform: perspective(1200px) translateX(0px) rotate(0deg);}/*加初始值 解决突然变大*/
-		ul li.left_1{transform:perspective(1200px) translateX(-350px) rotateY(40deg); z-index:1; opacity: 0;}
-		ul li.left_2{transform:perspective(1200px) translateX(-250px) rotateY(40deg); z-index:2; opacity: .7;}
-		ul li.mid{z-index: 3; width: 480px; opacity: 1;}
-		ul li.right_1{transform:perspective(1200px) translateX(350px) rotateY(-40deg); z-index:1; opacity: .7;}
-		ul li.right_2{transform:perspective(1200px) translateX(250px) rotateY(-40deg); z-index:2; opacity: 0;}
+		div{ width: 100px; height: 100px; background: red; position: absolute; top: 0px; left: 0px; }
 	</style>
 	<script>
-	window.onload = function (){
-		var aLis = document.querySelectorAll('li');
-		var oBtn = document.getElementById('btn');
-		var arr = [];
-		var ready = true;
-		//把每一个li的className循环放在数组里
-		for(var i=0; i<aLis.length; i++){
-			arr[i] = aLis[i].className;
-		}
+	(function (){
+		window.addEventListener('DOMContentLoaded',function (){
+			var oDiv = document.querySelector('div');
+			var x = 0;
+			var y = 0;
+			var dir = '';
+			oDiv.addEventListener('touchstart',function (ev){
+				var startX = ev.tragetTouches[0].pageX;
+				var startY = ev.tragetTouches[0].pageY;
+				var disX = startX - x;
+				var disY = startY - Y;
 
+				function move(ev){
+					var moveX = ev.tragetTouches[0].pageX;
+					var moveY = ev.tragetTouches[0].pageY;
+					if(dir){
+						if(dir == 'l2r'){
+							x = moveX - disX;
+						}else if(dir == 't2b'){
+							y = moveY - disY;
+						}
+					}else{
+						if(Math.abs(moveX - disX) > 20){
+							dir = 'l2r';
+						}else if(Math.abs(moveY - disY) > 20){
+							dir = 't2b';
+						}
 
-		oBtn.onclick = function (){
-			//第一次点击完成开关是false, 在开关为false的时候下面的代码不会执行
-			//代码执行完成开关为true再次点击执行开关取反
-			if(!ready)return;
-			ready = false;
-			var oMid = document.querySelector('.mid');
-			arr.unshift(arr.pop());
-			for(var i=0; i<aLis.length; i++){
-				aLis[i].className = arr[i];
-			}	
-				//事件绑定解除 运动结束时解除自己的事件绑定,
-				//每点击一次mid就在改变一次，因为有俩个空白的className
-				//事件监听的目的是为了监听上面的transition基础运动
-				oMid.addEventListener('transitionend',toRead,false);
-				function toRead(){
-					ready = true;
-
-					oMid.removeEventListener('transitionend',toRead,false);
+					}
+					oDiv.style.WebkitTransform = 'translate('+x+'px,'+y+'px)';
 				}
-			
-		};
-	};
+
+				function end(){
+					document.removeEventListener('touchmove',move,false);
+					document.removeEventListener('touchend',end,false);
+				}
+
+				document.addEventListener('touchmove',move,false);
+				document.addEventListener('touchend',end,false);
+				ev.preventDefault();
+			},false);
+		},false);
+	})()
 	</script>
 </head>
 <body>
-<button id="btn">下一个</button>
-	<ul>
-		<li class="left_1" style="background: red;">11</li>
-		<li class="left_2" style="background: yellow;">22</li>
-		<li class="mid" style="background: green;">33</li>
-		<li class="right_1" style="background: blue;">44</li>
-		<li class="right_2" style="background: orange;">55</li>
-		<li style="background: pink;">66</li>
-		<li style="background: #989899;">77</li>
-	</ul>
+	<div></div>
 </body>
 </html>
