@@ -1,59 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<title>Document</title>
-	<style>
-		div{ width: 100px; height: 100px; background: green; position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; }
-	</style>
-	<script>
+<script>
+(function (){
 	window.addEventListener('DOMContentLoaded',function (){
-		var oDiv = document.querySelector('div');
-		var x = 0;
-		var y = 0;
-		var dir = '';
-		oDiv.addEventListener('touchstart',function (ev){
-			var startX = ev.targetTouches[0].pageX;
-			var startY = ev.targetTouches[0].pageY;
-			var disX = startX - x;
-			var disY = startY - y;
-			function move(ev){	
-				var moveX = ev.targetTouches[0].pageX
-				var moveY = ev.targetTouches[0].pageY;
-				if(dir){
-					//有方向
-					if(dir == 'l2r'){
-						x = moveX - disX;
-					}else if(dir == 't2b')
-						y = moveY - disY;
-				}else{
-					//没有方向
-					if(Math.abs(moveX - disX) > 20){
-						dir = 'l2r';
-					}else if(Math.abs(moveY - disY) > 20){
-						dir = 't2b';
-					}
-					x = moveX - disX;
-					y = moveY - disY;
-				}
-
-				oDiv.style.WebkitTransform = 'translate('+x+'px,'+y+'px)';
-			}		
-			function end(){
-				document.removeEventListener('touchmove',move,false);
-				document.removeEventListener('touchend',end,false);
-				dir = '';
-
-			}
-			document.addEventListener('touchmove',move,false);
-			document.addEventListener('touchend',end,false);
-			ev.preventDefault();
-		},false);
+		function setFont(){
+			document.documentElement.style.fontSize = document.documentElement.clientWidth/16 + 'px';
+		}
+		setFont();
+		document.addEventListener('resize',setFont,false);
 	},false);
-	</script>
+})()
+</script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0 height=device-height"> 
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>Document</title>
+
+	<style>
+		*{ padding: 0; margin: 0; list-style: none; }
+		input{outline: medium;}
+		html,body{ height: 100%;}
+		a{ color: #989898; text-decoration: none; font-weight: bold; }
+		.box{ width: 100%; overflow: hidden;}
+		.box header{ width: 100%; height: 1.6rem; padding: 0.4rem 0; background: #99cb00; border-bottom: 0.2rem solid #649901; }
+		.box header a:nth-child(1){ width: 2.125rem; height: 1.25rem; text-indent: -9999em; background: url(img/icon.png) no-repeat; background-size: 2.125rem 1.25rem; margin-left: 0.5rem; }
+		.box header a{ color: #999; font-size: 0.425rem; display: block; background: #fff;}
+		.box header a:nth-child(2){ width: 2rem; height: 1.2rem; line-height: 1.2rem; text-align: center; border-radius: 0.225rem; margin-left: 0.95rem; }
+		.box header a:nth-child(3){ width: 7.425rem; height: 1.25rem; border-radius: .95rem; box-shadow: inset 0 2px 2px 2px #999; margin-left: .4rem;}
+		.box header a:nth-child(4){ width: 2rem; height: 1.2rem; line-height: 1.2rem; background: #aec291; border-radius: 0.6rem; text-align: center; color: #fff;}
+		.box section{ background: #fafafa;  width: 100%; padding-top: 0.75rem;}
+		.box section article:nth-child(1),.box section article:nth-child(1) ul li,.box section article:nth-child(1) ul li img{ width: 15rem; height: 5rem;}
+		.box section article:nth-child(1){ margin: 0rem .5rem .5rem .5rem; }
+		.box section article:nth-child(2) ul{ height: 100%; display: -webkit-box; -webkit-box-direction: reverse; width: 15rem; margin: 0 .5rem; margin-bottom: .2rem;}
+		.box section article:nth-child(2) ul li a{ font-size: .55rem;}
+		.box section article:nth-child(2) ul li{ -webkit-box-flex: 1; line-height: 1.875rem; height: 1.875rem; border: 1px solid #ddd; border-radius: .2rem; margin: 0 .1rem; text-align: center; padding: 0 .7rem; background: url(img/qu.png) no-repeat .3rem .6rem;  background-size: .85rem;  box-sizing: center-box;} 
+		.box section .info{ line-height: 2.175rem; height: 2.175rem;}
+		.box section .info ul li h2{ font-size: .55rem; margin-left: .45em;}
+		.box section .info ul li:nth-child(2){ display: inline-block; width: 8.65rem; height: 1px; background:#ccc; margin: 1.05rem .575rem 0 .425rem; }
+		.box section .info ul li i{ display: inline-block; width: .3rem; height: .3rem; border-radius: 50%; background: #999;  margin: 0rem .3rem 0.2rem .3rem;}
+		.box .tab{ width: 100%; font-size: .425rem;  height: 6rem; margin:.3rem .4rem 1rem .4rem;}
+		.box .tab>ul{width: 19.1rem;}
+		.box .tab ul li img{ width:3.8rem; }
+		.box .tab ul>li{ margin-right: .75rem;}
+		.box .tab ul li p{line-height: 1.35rem;}
+		.box .tab ul .start{height: .7rem;}
+		.box .tab ul .start li{ background: url(img/start.png) no-repeat; width: .8rem; height: .7rem; background-size: .8rem .7rem; margin: 0;}
+
+		.box .tab1{width: 100%; margin-left: .5rem;}
+		.box .tab1 ul li{ width: 11.3rem; height: 4.3rem;  border: 1px solid #ccc; border-radius: .2rem; padding: .3rem .6rem .45rem .6rem; margin-right: .875rem; font-size: .575rem;}
+		.box .tab1 ul{ width: 26.975rem; }
+		.box .tab1 ul li img{ display: inline-block; width: 4rem; }
+		.box .game p:nth-child(1){ width: 7rem; word-wrap: break-word; line-height: 1rem; margin-left: .3rem;}
+		.box .game p:nth-child(2){ margin: 1.55rem 0 .1rem 2rem;}
+		.box .tab1 ul li p{ }
+		.box footer{ width: 100%;margin: 1.25rem .5rem .5rem .5rem; }
+		.box footer div{ width: 15rem; height: 2.8rem; background: #f2f2f2; border-radius: .4rem .4rem .4rem .6rem; text-align: center; font-size: .5rem; position: relative;}
+		.box footer div p:nth-child(2){ line-height: 1rem; padding-top: .375rem;}
+		.box footer div p:nth-child(2) i{font-style: none; display: inline-block; width: 1px; background: #999; height: .5rem;}
+		.box footer div p:nth-child(1) img{position: absolute; bottom: 0; left: 0; width: 2.1rem;}
+		.box footer div p:nth-child(3){font-size: .2rem; margin-left: 2rem;}
+		.fl{float: left;}
+		.fr{float: right;}
+		.clearfixe:after{ content: ''; display: block; clear: both; }
+	</style>
 </head>
 <body>
-	<div></div>
+	<div class="box">
+		<header class="clearfixe">
+			<a href="javascript:;" class="fl">图标</a href="javascript:;">
+			<a href="javascript:;" class="fl play">网游</a>
+			<a href="javascript:;" class="fl"></a>
+			<a href="javascript:;" class="fl">搜索</a>
+		</header>
+
+		<section>
+			<article>
+				<ul>
+					<li><img src="img/tab.png" alt="1"></li>
+				</ul>
+			</article>
+			<article>
+				<ul>
+					<li><a href="javascript:;">玩网游</a></li>
+					<li><a href="javascript:;">玩网游</a></li>
+					<li><a href="javascript:;">单机</a></li>
+				</ul>
+				<ul>
+					<li><a href="javascript:;">玩网游</a></li>
+					<li><a href="javascript:;">玩网游</a></li>
+					<li><a href="javascript:;">单机</a></li>
+				</ul>
+			</article>
+			<div class="info">
+				<ul class="clearfixe">
+					<li class="fl"><h2>推荐手机游戏</h2></li>
+					<li class="fl"></li>
+					<li class="fl">&lt<i></i>&gt</li>
+				</ul>
+			</div>
+
+			<div class="tab">
+				<ul class="clearfixe">
+					<li class="fl">
+						<img src="img/lie.png" alt="1">
+						<p>时空恋人</p>
+						<ul class="clearfixe start">
+							<li class="fl"></li>
+							<li class="fl"></li>
+							<li class="fl"></li>	
+						</ul>
+					</li>
+					<li class="fl">
+						<img src="img/lie.png" alt="1">
+						<p>时空恋人</p>
+						<ul class="clearfixe start">
+							<li class="fl"></li>
+							<li class="fl"></li>
+							<li class="fl"></li>	
+							<li class="fl"></li>	
+						</ul>
+					</li>
+					<li class="fl">
+						<img src="img/lie.png" alt="1">
+						<p>时空恋人</p>
+						<ul class="clearfixe start">
+							<li class="fl"></li>
+							<li class="fl"></li>
+							<li class="fl"></li>	
+						</ul>
+					</li>
+					<li class="fl">
+						<img src="img/lie.png" alt="1">
+						<p>时空恋人</p>
+						<ul class="clearfixe start">
+							<li class="fl"></li>
+							<li class="fl"></li>
+							<li class="fl"></li>	
+						</ul>
+					</li>
+				</ul>
+			</div>
+
+			<div class="info">
+				<ul class="clearfixe">
+					<li class="fl"><h2>推荐手机游戏</h2></li>
+					<li class="fl"></li>
+					<li class="fl">&lt<i></i>&gt</li>
+				</ul>
+			</div>
+
+			<div class="tab1">
+				<ul class="clearfixe">
+					<li class="clearfixe fl">
+						<img src="img/tu.png" alt="1" class="fl">
+						<div class="fl game">
+							<p>币金属大赛	《特级木偶托:恰年向》4月商检</p>
+							<p>行业动态-03月25日</p>
+						</div>
+					</li>
+					<li class="clearfixe fl">
+						<img src="img/tu.png" alt="1" class="fl">
+						<div class="fl game">
+							<p>币金属大赛	《特级木偶托:恰年向》4月商检</p>
+							<p>行业动态-03月25日</p>
+						</div>
+					</li>
+
+				</ul>
+			</div>
+
+			<div class="info">
+				<ul class="clearfixe">
+					<li class="fl"><h2>推荐手机游戏</h2></li>
+					<li class="fl"></li>
+					<li class="fl">&lt<i></i>&gt</li>
+				</ul>
+			</div>
+
+
+		<footer>
+			<div>
+				<p><img src="img/footer.png" alt=""></p>
+				<p>
+					<span>WAP版</span>
+					<i></i>
+					<span>桌面版</span>
+					<i></i>
+					<span>帮助中心</span>
+				</p>
+				<p>&copy2010-2013 Wanjidao.AllRights Reserved</p>
+			</div>	
+		</footer>
+		</section>
+	</div>
 </body>
 </html>
